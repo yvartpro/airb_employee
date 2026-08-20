@@ -7,12 +7,13 @@ const { PORT } = require('./config');
 
 (async () => {
   try {
-    // Sync database
-    await sequelize.sync({ alter: process.env.NODE_ENV === 'development' });
-    console.log('Database synchronized successfully.');
+    // Authenticate database connection
+    await sequelize.authenticate();
+    console.log('Database connection established successfully.');
 
     app.listen(PORT, () => {
       console.log(`AIRB Employee Management Backend running on http://localhost:${PORT}`);
+      console.log('Note: Run "npm run migrate" to apply pending migrations');
     });
   } catch (error) {
     console.error('Failed to start server:', error);

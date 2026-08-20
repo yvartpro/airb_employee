@@ -1,5 +1,6 @@
 const { ActivityLog, User } = require('../models');
 const { Op } = require('sequelize');
+const { apiResponse } = require('../utils/response');
 
 exports.getAllActivityLogs = async (req, res) => {
   const { userId, entityType, action, startDate, endDate } = req.query;
@@ -29,10 +30,10 @@ exports.getAllActivityLogs = async (req, res) => {
       limit: parseInt(req.query.limit) || 100
     });
 
-    res.json({ success: true, logs });
+    return apiResponse(res, 200, 'Activity logs fetched successfully.', logs);
   } catch (error) {
     console.error('Error fetching activity logs:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.');
   }
 };
 
@@ -49,12 +50,12 @@ exports.getActivityLogById = async (req, res) => {
     });
 
     if (!log) {
-      return res.status(404).json({ success: false, message: 'Activity log not found.' });
+        return apiResponse(res, 404, 'Activity log not found.');
     }
-    res.json({ success: true, log });
+    return apiResponse(res, 200,"Activity log retrieved successfully.", log)
   } catch (error) {
     console.error('Error fetching activity log:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res,500,'Internal server error.')
   }
 };
 
@@ -75,10 +76,10 @@ exports.getUserActivityLogs = async (req, res) => {
       limit: parseInt(limit)
     });
 
-    res.json({ success: true, logs });
+    return apiResponse(res, 200, "Logs retrieved successfully.", logs)
   } catch (error) {
-    console.error('Error fetching user activity logs:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    console.error('Error fetching user activity logs:', error)
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -96,11 +97,11 @@ exports.getEntityActivityLogs = async (req, res) => {
       ],
       order: [['createdAt', 'DESC']]
     });
+    return apiResponse(res, 200, "Logs retrieved successfully.", logs)
 
-    res.json({ success: true, logs });
   } catch (error) {
     console.error('Error fetching entity activity logs:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -126,9 +127,10 @@ exports.getActivityStats = async (req, res) => {
       raw: true
     });
 
+    return apiResponse(res, 200, "Stats retrieved successfully.", stats)
     res.json({ success: true, stats });
   } catch (error) {
     console.error('Error fetching activity stats:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
