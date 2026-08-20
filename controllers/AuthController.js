@@ -51,15 +51,13 @@ exports.googleAuth = async (req, res) => {
         role: user.role,
         fullName: user.fullName
       },
-      process.env.JWT_SECRET || 'secret-key',
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
     console.log(`User logged in via Google: ${user.email}`);
 
-    return res.json({
-      success: true,
-      message: 'Authentication successful',
+    return apiResponse(res, 200, 'Authentication successful', {
       token,
       user: {
         id: user.id,
