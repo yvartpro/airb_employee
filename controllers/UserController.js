@@ -1,14 +1,15 @@
 const { User } = require('../models');
+const { apiResponse } = require('../utils/response');
 
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: { exclude: [] }
     });
-    res.json({ success: true, users });
+    return apiResponse(res, 200, 'Users retrieved successfully', users)
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -16,13 +17,11 @@ exports.getUserById = async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
-    }
-    res.json({ success: true, user });
+    if (!user) return apiResponse(res, 404,'User not found.')
+    return apiResponse(res, 200, 'User retrieved', user)
   } catch (error) {
     console.error('Error fetching user:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -32,13 +31,11 @@ exports.updateUser = async (req, res) => {
 
   try {
     const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
-    }
+    if (!user) return apiResponse(res, 404,'User not found.')
 
     // Only admin can change roles
     if (role && role !== user.role && req.user.role !== 'admin') {
-      return res.status(403).json({ success: false, message: 'Insufficient permissions.' });
+      return apiResponse(res, 403, 'Insufficient permissions.' )
     }
 
     await user.update({
@@ -48,10 +45,10 @@ exports.updateUser = async (req, res) => {
       avatarUrl: avatarUrl || user.avatarUrl
     });
 
-    res.json({ success: true, message: 'User updated successfully.', user });
+    return apiResponse(res, 201, 'User updated successfully.', user)
   } catch (error) {
     console.error('Error updating user:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -60,14 +57,12 @@ exports.deleteUser = async (req, res) => {
 
   try {
     const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
-    }
+    if (!user) return apiResponse(res, 404,'User not found.')
 
     await user.destroy();
-    res.json({ success: true, message: 'User deleted successfully.' });
+    return apiResponse(res, 200, 'User deleted successfully.')
   } catch (error) {
     console.error('Error deleting user:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };

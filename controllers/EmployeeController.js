@@ -1,4 +1,5 @@
 const { Employee, User, ActivityLog } = require('../models');
+const { apiResponse } = require('../utils/response');
 
 exports.getAllEmployees = async (req, res) => {
   try {
@@ -11,10 +12,10 @@ exports.getAllEmployees = async (req, res) => {
         }
       ]
     });
-    res.json({ success: true, employees });
+    return apiResponse(res, 200, 'Employees retrieved successfully', employees)
   } catch (error) {
     console.error('Error fetching employees:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 5000, 'Internal server error.')
   }
 };
 
@@ -34,14 +35,11 @@ exports.getEmployeeById = async (req, res) => {
         }
       ]
     });
-
-    if (!employee) {
-      return res.status(404).json({ success: false, message: 'Employee not found.' });
-    }
-    res.json({ success: true, employee });
+    if (!employee) return apiResponse(res, 404,'Employee not found.')
+    return apiResponse(res, 200, "Employee retrieved", employee)
   } catch (error) {
     console.error('Error fetching employee:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 5000, 'Internal server error.')
   }
 };
 
@@ -49,9 +47,7 @@ exports.createEmployee = async (req, res) => {
   const { firstName, lastName, phone, origin, availability } = req.body;
   const photoUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-  if (!firstName || !lastName) {
-    return res.status(400).json({ success: false, message: 'First name and last name are required.' });
-  }
+  if (!firstName || !lastName)return apiResponse(res, 401, 'First name and last name are required.')
 
   try {
     const employee = await Employee.create({
@@ -72,11 +68,10 @@ exports.createEmployee = async (req, res) => {
       entityId: employee.id,
       details: { firstName, lastName }
     });
-
-    res.status(201).json({ success: true, message: 'Employee created successfully.', employee });
+    return apiResponse(res, 201,'Employee created successfully.', employee)
   } catch (error) {
     console.error('Error creating employee:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 5000, 'Internal server error.')
   }
 };
 
@@ -87,9 +82,7 @@ exports.updateEmployee = async (req, res) => {
 
   try {
     const employee = await Employee.findByPk(id);
-    if (!employee) {
-      return res.status(404).json({ success: false, message: 'Employee not found.' });
-    }
+    if (!employee) return apiResponse(res, 404,'Employee not found.')
 
     const oldData = employee.toJSON();
     await employee.update({
@@ -110,10 +103,10 @@ exports.updateEmployee = async (req, res) => {
       details: { oldData, newData: employee.toJSON() }
     });
 
-    res.json({ success: true, message: 'Employee updated successfully.', employee });
+    return apiResponse(res, 200, 'Employee updated successfully.', employee)
   } catch (error) {
     console.error('Error updating employee:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 5000, 'Internal server error.')
   }
 };
 
@@ -122,9 +115,7 @@ exports.deleteEmployee = async (req, res) => {
 
   try {
     const employee = await Employee.findByPk(id);
-    if (!employee) {
-      return res.status(404).json({ success: false, message: 'Employee not found.' });
-    }
+    if (!employee) return apiResponse(res, 404, 'Employee not found.')
 
     const employeeData = employee.toJSON();
     await employee.destroy();
@@ -138,9 +129,9 @@ exports.deleteEmployee = async (req, res) => {
       details: employeeData
     });
 
-    res.json({ success: true, message: 'Employee deleted successfully.' });
+    return apiResponse(res, 200, 'Employee deleted successfully.')
   } catch (error) {
     console.error('Error deleting employee:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 5000, 'Internal server error.')
   }
 };

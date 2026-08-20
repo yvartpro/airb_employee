@@ -1,5 +1,6 @@
 const { CommissionTransaction, Employee, Partner, SalarySetting } = require('../models');
 const { Op } = require('sequelize');
+const { apiResponse } = require('../utils/response');
 
 exports.getAllCommissions = async (req, res) => {
   const { partnerId, employeeId, period } = req.query;
@@ -27,10 +28,10 @@ exports.getAllCommissions = async (req, res) => {
       order: [['transactionDate', 'DESC']]
     });
 
-    res.json({ success: true, commissions });
+    return apiResponse(res, 200, 'Commissions retrieved successfully', commissions)
   } catch (error) {
     console.error('Error fetching commissions:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -56,13 +57,11 @@ exports.getCommissionById = async (req, res) => {
       ]
     });
 
-    if (!commission) {
-      return res.status(404).json({ success: false, message: 'Commission not found.' });
-    }
-    res.json({ success: true, commission });
+    if (!commission) return apiResponse(res, 404, 'Commission not found.')
+		return apiResponse(res, 200, 'Commission retrieved.', commission )
   } catch (error) {
     console.error('Error fetching commission:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -70,7 +69,7 @@ exports.createCommission = async (req, res) => {
   const { salarySettingId, employeeId, partnerId, amount, period, transactionDate } = req.body;
 
   if (!employeeId || !partnerId || !amount || !period || !transactionDate) {
-    return res.status(400).json({ success: false, message: 'Missing required fields.' });
+    return apiResponse(res, 400, 'Missing required fields.');
   }
 
   try {
@@ -83,10 +82,10 @@ exports.createCommission = async (req, res) => {
       transactionDate
     });
 
-    res.status(201).json({ success: true, message: 'Commission created successfully.', commission });
+		return apiResponse(res, 201, 'Commission created successfully.', commission)
   } catch (error) {
     console.error('Error creating commission:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -119,14 +118,13 @@ exports.getCommissionSummary = async (req, res) => {
 
     const totalAmount = commissions.reduce((sum, c) => sum + parseFloat(c.totalAmount || 0), 0);
 
-    res.json({
-      success: true,
+		return apiResponse(res, 201, '',{
       summary: commissions,
       totalAmount: parseFloat(totalAmount.toFixed(2))
-    });
+		})
   } catch (error) {
     console.error('Error fetching commission summary:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -135,14 +133,12 @@ exports.deleteCommission = async (req, res) => {
 
   try {
     const commission = await CommissionTransaction.findByPk(id);
-    if (!commission) {
-      return res.status(404).json({ success: false, message: 'Commission not found.' });
-    }
+    if (!commission) return apiResponse(res, 404, 'Commission not found.')
 
     await commission.destroy();
-    res.json({ success: true, message: 'Commission deleted successfully.' });
+		return apiResponse(res, 201, 'Commission deleted successfully.')
   } catch (error) {
     console.error('Error deleting commission:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };

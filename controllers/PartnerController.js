@@ -1,12 +1,13 @@
 const { Partner, ActivityLog } = require('../models');
+const { apiResponse } = require('../utils/response');
 
 exports.getAllPartners = async (req, res) => {
   try {
     const partners = await Partner.findAll();
-    res.json({ success: true, partners });
+    return apiResponse(res, 200, "Partners retrieved successfully", partners)
   } catch (error) {
     console.error('Error fetching partners:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -22,22 +23,18 @@ exports.getPartnerById = async (req, res) => {
       ]
     });
 
-    if (!partner) {
-      return res.status(404).json({ success: false, message: 'Partner not found.' });
-    }
-    res.json({ success: true, partner });
+    if (!partner) return apiResponse(res, 404, 'Partner not found.')
+    return apiResponse(res, 200, "Partner retrieved", partner)
   } catch (error) {
     console.error('Error fetching partner:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
 exports.createPartner = async (req, res) => {
   const { name, contactPhone, status, defaultCommissionRate } = req.body;
 
-  if (!name) {
-    return res.status(400).json({ success: false, message: 'Partner name is required.' });
-  }
+  if (!name) return apiResponse(res, 400, 'Partner name is required.' )
 
   try {
     const partner = await Partner.create({
@@ -56,10 +53,10 @@ exports.createPartner = async (req, res) => {
       details: { name }
     });
 
-    res.status(201).json({ success: true, message: 'Partner created successfully.', partner });
+    return apiResponse(res, 201, 'Partner created successfully.', partner )
   } catch (error) {
     console.error('Error creating partner:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -68,10 +65,9 @@ exports.updatePartner = async (req, res) => {
   const { name, contactPhone, status, defaultCommissionRate } = req.body;
 
   try {
-    const partner = await Partner.findByPk(id);
-    if (!partner) {
-      return res.status(404).json({ success: false, message: 'Partner not found.' });
-    }
+    const partner = await Partner.findByPk(id);    
+    if (!partner) return apiResponse(res, 404, 'Partner not found.')
+
 
     const oldData = partner.toJSON();
     await partner.update({
@@ -90,10 +86,10 @@ exports.updatePartner = async (req, res) => {
       details: { oldData, newData: partner.toJSON() }
     });
 
-    res.json({ success: true, message: 'Partner updated successfully.', partner });
+    return apiResponse(res, 201, 'Partner updated successfully.', partner)
   } catch (error) {
     console.error('Error updating partner:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -102,9 +98,8 @@ exports.deletePartner = async (req, res) => {
 
   try {
     const partner = await Partner.findByPk(id);
-    if (!partner) {
-      return res.status(404).json({ success: false, message: 'Partner not found.' });
-    }
+    if (!partner) return apiResponse(res, 404, 'Partner not found.')
+  
 
     const partnerData = partner.toJSON();
     await partner.destroy();
@@ -118,9 +113,9 @@ exports.deletePartner = async (req, res) => {
       details: partnerData
     });
 
-    res.json({ success: true, message: 'Partner deleted successfully.' });
+    return apiResponse(res, 200,'Partner deleted successfully.')
   } catch (error) {
     console.error('Error deleting partner:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };

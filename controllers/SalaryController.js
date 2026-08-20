@@ -1,4 +1,5 @@
 const { SalarySetting, Assignment, Employee, Partner } = require('../models');
+const { apiResponse } = require('../utils/response');
 
 exports.getAllSalarySettings = async (req, res) => {
   try {
@@ -19,10 +20,10 @@ exports.getAllSalarySettings = async (req, res) => {
         }
       ]
     });
-    res.json({ success: true, salarySettings });
+    return apiResponse(res, 200, 'Salary settings retrieved', salarySettings)
   } catch (error) {
     console.error('Error fetching salary settings:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -47,13 +48,11 @@ exports.getSalarySettingById = async (req, res) => {
       ]
     });
 
-    if (!salarySetting) {
-      return res.status(404).json({ success: false, message: 'Salary setting not found.' });
-    }
+    if (!salarySetting) return apiResponse(res, 404, 'Salary setting not found.')
     res.json({ success: true, salarySetting });
   } catch (error) {
     console.error('Error fetching salary setting:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -61,7 +60,7 @@ exports.createSalarySetting = async (req, res) => {
   const { assignmentId, grossSalary, commissionRate, effectiveMonth } = req.body;
 
   if (!assignmentId || !grossSalary || commissionRate === undefined || !effectiveMonth) {
-    return res.status(400).json({ success: false, message: 'Missing required fields.' });
+    return apiResponse(res, 200, 'Missing required fields.')
   }
 
   try {
@@ -78,10 +77,10 @@ exports.createSalarySetting = async (req, res) => {
       effectiveMonth
     });
 
-    res.status(201).json({ success: true, message: 'Salary setting created successfully.', salarySetting });
+    return apiResponse(res, 201, 'Salary setting created successfully.', salarySetting)
   } catch (error) {
     console.error('Error creating salary setting:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -91,9 +90,7 @@ exports.updateSalarySetting = async (req, res) => {
 
   try {
     const salarySetting = await SalarySetting.findByPk(id);
-    if (!salarySetting) {
-      return res.status(404).json({ success: false, message: 'Salary setting not found.' });
-    }
+    if (!salarySetting) return apiResponse(res, 404,'Salary setting not found.')
 
     const newGrossSalary = grossSalary !== undefined ? parseFloat(grossSalary) : salarySetting.grossSalary;
     const newCommissionRate = commissionRate !== undefined ? parseFloat(commissionRate) : salarySetting.commissionRate;
@@ -108,10 +105,10 @@ exports.updateSalarySetting = async (req, res) => {
       netSalary: parseFloat(netSalary.toFixed(2))
     });
 
-    res.json({ success: true, message: 'Salary setting updated successfully.', salarySetting });
+    return apiResponse(res, 201,'Salary setting updated successfully.', salarySetting)
   } catch (error) {
     console.error('Error updating salary setting:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };
 
@@ -120,14 +117,12 @@ exports.deleteSalarySetting = async (req, res) => {
 
   try {
     const salarySetting = await SalarySetting.findByPk(id);
-    if (!salarySetting) {
-      return res.status(404).json({ success: false, message: 'Salary setting not found.' });
-    }
+    if (!salarySetting) return apiResponse(res,404,'Salary setting not found.')
 
     await salarySetting.destroy();
-    res.json({ success: true, message: 'Salary setting deleted successfully.' });
+    return apiResponse(res,200,'Salary setting deleted successfully.')
   } catch (error) {
-    console.error('Error deleting salary setting:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    console.error('Error deleting salary setting:', error);   
+    return apiResponse(res, 500, 'Internal server error.')
   }
 };

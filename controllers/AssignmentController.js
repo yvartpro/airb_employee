@@ -43,9 +43,7 @@ exports.getAssignmentById = async (req, res) => {
       ]
     });
 
-    if (!assignment) {
-      return apiResponse(res, 404, "Assignment not found.")
-    }
+    if (!assignment) return apiResponse(res, 404, "Assignment not found.")
     res.json({ success: true, assignment });
   } catch (error) {
     console.error('Error fetching assignment:', error);
@@ -94,9 +92,7 @@ exports.updateAssignment = async (req, res) => {
 
   try {
     const assignment = await Assignment.findByPk(id);
-    if (!assignment) {
-      return apiResponse(res, 404, 'Assignment not found.')
-    }
+    if (!assignment) return apiResponse(res, 404, 'Assignment not found.')
 
     const oldData = assignment.toJSON();
     await assignment.update({
@@ -129,9 +125,7 @@ exports.deleteAssignment = async (req, res) => {
 
   try {
     const assignment = await Assignment.findByPk(id);
-    if (!assignment) {
-      return apiResponse(res, 404, 'Assignment not found.')
-    }
+    if (!assignment) return apiResponse(res, 404, 'Assignment not found.')
 
     const assignmentData = assignment.toJSON();
     await assignment.destroy();
