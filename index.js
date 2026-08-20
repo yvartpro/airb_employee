@@ -1,3 +1,5 @@
+const dotenv = require('dotenv')
+dotenv.config()
 const app = require('./app');
 const { initDatabase } = require('./database');
 const { PORT } = require('./config');
