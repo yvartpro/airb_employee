@@ -14,7 +14,7 @@ async function googleAuth(req, res) {
     });
   }
 
-  if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
+  if (!GOOGLE_CLIENT_ID) {
     return res.status(500).json({
       success: false,
       message: 'Google client ID is not configured. Set GOOGLE_CLIENT_ID in your environment.'
