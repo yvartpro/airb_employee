@@ -93,7 +93,6 @@ Authorization: Bearer <jwt-token>
 
 ### Authentication
 - `POST /api/auth/google` - Google OAuth login
-- `POST /api/auth/login` - Email/password login
 - `GET /api/auth/verify` - Verify current token
 
 ### Users

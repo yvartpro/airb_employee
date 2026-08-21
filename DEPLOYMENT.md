@@ -66,24 +66,7 @@ npm start
 
 Server starts on `http://localhost:5000` (or configured PORT)
 
-## Database Connection Verification
-
-```bash
-# Test connection from app directory
-mysql -u yvart -p"burundi123?" airb_employee_db -e "SELECT COUNT(*) as table_count FROM information_schema.tables WHERE table_schema='airb_employee_db';"
-```
-
-Expected: 7 tables (all migrations applied)
-
-## Architecture Changes from db.sync()
-
-### Before (SQLite + db.sync())
-- ❌ No version control of schema
-- ❌ Automatic alterations risky in production
-- ❌ No rollback capability
-- ❌ Schema changes hard to track
-
-### Now (MySQL + Migrations)
+### MySQL + Migrations
 - ✅ Every schema change is versioned
 - ✅ Reproducible deployments
 - ✅ Full rollback capability

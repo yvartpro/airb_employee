@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
+const { apiResponse } = require('../utils/response');
 
 const requireAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authentication required' });
+    return apiResponse(res, 401,'Authentication required')
   }
 
   const token = authHeader.split(' ')[1];
@@ -15,19 +16,17 @@ const requireAuth = (req, res, next) => {
     next();
   } catch (error) {
     console.error('JWT Verification failed:', error.message);
-    return res.status(401).json({ message: 'Invalid or expired token', error: error.message });
+    return apiResponse(res, 401, 'Invalid or expired token', { error: error.message });
   }
 };
 
 const requireRole = (roles) => {
   return (req, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({ message: 'Authentication required' });
-    }
+    if (!req.user)
+      return apiResponse(res, 401, 'Authentication required')
 
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'Insufficient permissions' });
-    }
+    if (!roles.includes(req.user.role))
+      return apiResponse(res, 403, 'Insufficient permissions.')
 
     next();
   };
