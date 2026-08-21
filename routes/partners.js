@@ -38,6 +38,19 @@ const PartnerController = require('../controllers/PartnerController');
  *     responses:
  *       200:
  *         description: List of partners
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Partner'
  */
 router.get('/', requireAuth, PartnerController.getAllPartners);
 /**
@@ -56,6 +69,17 @@ router.get('/', requireAuth, PartnerController.getAllPartners);
  *     responses:
  *       200:
  *         description: Partner details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Partner'
  */
 router.get('/:id', requireAuth, PartnerController.getPartnerById);
 /**
@@ -73,6 +97,17 @@ router.get('/:id', requireAuth, PartnerController.getPartnerById);
  *     responses:
  *       201:
  *         description: Partner created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Partner'
  */
 router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), PartnerController.createPartner);
 /**
@@ -96,6 +131,17 @@ router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), PartnerCon
 *     responses:
 *       200:
 *         description: Partner updated
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   $ref: '#/components/schemas/Partner'
  */
 router.patch('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), PartnerController.updatePartner);
 /**
@@ -114,6 +160,17 @@ router.patch('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), Partne
 *     responses:
 *       200:
 *         description: Partner deleted
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   type: object
 */
 router.delete('/:id', requireAuth, requireRole(['admin']), PartnerController.deletePartner);
 

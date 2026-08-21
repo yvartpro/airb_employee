@@ -42,6 +42,19 @@ const CommissionController = require('../controllers/CommissionController');
  *     responses:
  *       200:
  *         description: List of commissions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Commission'
  */
 router.get('/', requireAuth, CommissionController.getAllCommissions);
 /**
@@ -54,6 +67,17 @@ router.get('/', requireAuth, CommissionController.getAllCommissions);
  *     responses:
  *       200:
  *         description: Commission summary
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Commission'
  */
 router.get('/summary', requireAuth, CommissionController.getCommissionSummary);
 /**
@@ -72,6 +96,17 @@ router.get('/summary', requireAuth, CommissionController.getCommissionSummary);
  *     responses:
  *       200:
  *         description: Commission details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Commission'
  */
 router.get('/:id', requireAuth, CommissionController.getCommissionById);
 /**
@@ -89,6 +124,17 @@ router.get('/:id', requireAuth, CommissionController.getCommissionById);
  *     responses:
  *       201:
  *         description: Commission created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Commission'
  */
 router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), CommissionController.createCommission);
 /**
@@ -107,6 +153,17 @@ router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), Commission
 *     responses:
 *       200:
 *         description: Commission deleted
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   type: object
 */
 router.delete('/:id', requireAuth, requireRole(['admin']), CommissionController.deleteCommission);
 

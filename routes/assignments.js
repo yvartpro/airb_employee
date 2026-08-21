@@ -46,6 +46,19 @@ const AssignmentController = require('../controllers/AssignmentController');
  *     responses:
  *       200:
  *         description: List of assignments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Assignment'
  */
 router.get('/', requireAuth, AssignmentController.getAllAssignments);
 /**
@@ -64,6 +77,17 @@ router.get('/', requireAuth, AssignmentController.getAllAssignments);
  *     responses:
  *       200:
  *         description: Assignment details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Assignment'
  */
 router.get('/:id', requireAuth, AssignmentController.getAssignmentById);
 /**
@@ -81,6 +105,17 @@ router.get('/:id', requireAuth, AssignmentController.getAssignmentById);
  *     responses:
  *       201:
  *         description: Assignment created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Assignment'
  */
 router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), AssignmentController.createAssignment);
 /**
@@ -104,6 +139,17 @@ router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), Assignment
 *     responses:
 *       200:
 *         description: Assignment updated
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   $ref: '#/components/schemas/Assignment'
 */
 router.put('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), AssignmentController.updateAssignment);
 /**
@@ -122,6 +168,17 @@ router.put('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), Assignme
 *     responses:
 *       200:
 *         description: Assignment deleted
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   type: object
 */
 router.delete('/:id', requireAuth, requireRole(['admin']), AssignmentController.deleteAssignment);
 

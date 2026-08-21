@@ -44,6 +44,19 @@ const EmployeeController = require('../controllers/EmployeeController');
  *     responses:
  *       200:
  *         description: List of employees
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Employee'
  */
 router.get('/', requireAuth, EmployeeController.getAllEmployees);
 /**
@@ -62,6 +75,17 @@ router.get('/', requireAuth, EmployeeController.getAllEmployees);
  *     responses:
  *       200:
  *         description: Employee details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Employee'
  */
 router.get('/:id', requireAuth, EmployeeController.getEmployeeById);
 /**
@@ -79,6 +103,17 @@ router.get('/:id', requireAuth, EmployeeController.getEmployeeById);
  *     responses:
  *       201:
  *         description: Employee created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Employee'
  */
 router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), uploadSingle, EmployeeController.createEmployee);
 /**
@@ -102,6 +137,17 @@ router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), uploadSing
 *     responses:
 *       200:
 *         description: Employee updated
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   $ref: '#/components/schemas/Employee'
  */
 router.patch('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), uploadSingle, EmployeeController.updateEmployee);
 /**
@@ -120,6 +166,17 @@ router.patch('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), upload
 *     responses:
 *       200:
 *         description: Employee deleted
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   type: object
 */
 router.delete('/:id', requireAuth, requireRole(['admin']), EmployeeController.deleteEmployee);
 

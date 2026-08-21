@@ -23,6 +23,17 @@ const { requireAuth } = require('../middleware/auth');
  *     responses:
  *       200:
  *         description: Successful authentication
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Object'
  */
 router.post('/google', googleAuth);
 /**
@@ -35,6 +46,17 @@ router.post('/google', googleAuth);
  *     responses:
  *       200:
  *         description: Authentication verified
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Object'
  */
 router.get('/verify', requireAuth, verify);
 

@@ -13,6 +13,19 @@ const ActivityLogController = require('../controllers/ActivityLogController');
  *     responses:
  *       200:
  *         description: List of activity logs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Object'
  */
 router.get('/', requireAuth, ActivityLogController.getAllActivityLogs);
 /**
@@ -25,6 +38,17 @@ router.get('/', requireAuth, ActivityLogController.getAllActivityLogs);
  *     responses:
  *       200:
  *         description: Activity statistics
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Object'
  */
 router.get('/stats', requireAuth, ActivityLogController.getActivityStats);
 /**
@@ -43,6 +67,17 @@ router.get('/stats', requireAuth, ActivityLogController.getActivityStats);
  *     responses:
  *       200:
  *         description: User activity logs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Object'
  */
 router.get('/user/:userId', requireAuth, ActivityLogController.getUserActivityLogs);
 /**
@@ -66,6 +101,17 @@ router.get('/user/:userId', requireAuth, ActivityLogController.getUserActivityLo
  *     responses:
  *       200:
  *         description: Entity activity logs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/Object'
  */
 router.get('/entity/:entityType/:entityId', requireAuth, ActivityLogController.getEntityActivityLogs);
 /**
@@ -84,6 +130,17 @@ router.get('/entity/:entityType/:entityId', requireAuth, ActivityLogController.g
 *     responses:
 *       200:
 *         description: Activity log details
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   $ref: '#/components/schemas/Object'
 */
 router.get('/:id', requireAuth, ActivityLogController.getActivityLogById);
 

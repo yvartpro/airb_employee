@@ -39,6 +39,19 @@ const UserController = require('../controllers/UserController');
  *     responses:
  *       200:
  *         description: List of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
  */
 router.get('/', requireAuth, UserController.getAllUsers);
 /**
@@ -57,6 +70,17 @@ router.get('/', requireAuth, UserController.getAllUsers);
  *     responses:
  *       200:
  *         description: User details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
  */
 router.get('/:id', requireAuth, UserController.getUserById);
 /**
@@ -80,6 +104,17 @@ router.get('/:id', requireAuth, UserController.getUserById);
  *     responses:
  *       200:
  *         description: User updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
  */
 router.patch('/:id', requireAuth, UserController.updateUser);
 /**
@@ -98,6 +133,17 @@ router.patch('/:id', requireAuth, UserController.updateUser);
  *     responses:
  *       200:
  *         description: User deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  */ 
 router.delete('/:id', requireAuth, requireRole(['admin']), UserController.deleteUser);
 

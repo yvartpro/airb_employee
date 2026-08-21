@@ -41,6 +41,19 @@ const SalaryController = require('../controllers/SalaryController');
  *     responses:
  *       200:
  *         description: List of salary settings
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/SalarySetting'
  */
 router.get('/', requireAuth, SalaryController.getAllSalarySettings);
 /**
@@ -59,6 +72,17 @@ router.get('/', requireAuth, SalaryController.getAllSalarySettings);
  *     responses:
  *       200:
  *         description: Salary setting details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/SalarySetting'
  */
 router.get('/:id', requireAuth, SalaryController.getSalarySettingById);
 /**
@@ -76,6 +100,17 @@ router.get('/:id', requireAuth, SalaryController.getSalarySettingById);
  *     responses:
  *       201:
  *         description: Salary setting created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/SalarySetting'
  */
 router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), SalaryController.createSalarySetting);
 /**
@@ -99,6 +134,17 @@ router.post('/', requireAuth, requireRole(['admin', 'gestionnaire']), SalaryCont
 *     responses:
 *       200:
 *         description: Salary setting updated
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 data:
+*                   $ref: '#/components/schemas/SalarySetting'
  */
 router.patch('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), SalaryController.updateSalarySetting);
 /**
@@ -117,6 +163,17 @@ router.patch('/:id', requireAuth, requireRole(['admin', 'gestionnaire']), Salary
  *     responses:
  *       200:
  *         description: Salary setting deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
  */
 router.delete('/:id', requireAuth, requireRole(['admin']), SalaryController.deleteSalarySetting);
 
