@@ -12,7 +12,11 @@
     "seed": "sequelize-cli db:seed:all",
     "seed:undo": "sequelize-cli db:seed:undo:all"
   },
-  "keywords": ["employee", "management", "api"],
+  "keywords": [
+    "employee",
+    "management",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
@@ -27,7 +31,9 @@
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
     "mysql2": "^3.19.0",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",

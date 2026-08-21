@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const { swaggerSpec } = require('./swagger');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -41,6 +43,7 @@ app.use('/api/assignments', assignmentRoutes);
 app.use('/api/salary', salaryRoutes);
 app.use('/api/commissions', commissionRoutes);
 app.use('/api/activity-logs', activityLogRoutes);
+app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
