@@ -219,27 +219,27 @@ function processFile(filepath) {
             
             let dataType = '';
             if (isDelete) {
-              dataType = \`\${prefix}          type: object\`;
+              dataType = `${prefix}          type: object`;
             } else if (isArray) {
-              dataType = \`\${prefix}          type: array\\n\${prefix}          items:\\n\${prefix}            $ref: '#/components/schemas/\${schemaName}'\`;
+              dataType = `${prefix}          type: array\n${prefix}          items:\n${prefix}            $ref: '#/components/schemas/${schemaName}'`;
             } else {
-              dataType = \`\${prefix}          $ref: '#/components/schemas/\${schemaName}'\`;
+              dataType = `${prefix}          $ref: '#/components/schemas/${schemaName}'`;
             }
             
             if (i + 1 < lines.length && lines[i + 1].includes('content:')) {
               // skip if already has content
             } else {
-              const injection = \`\${prefix}content:
-\${prefix}  application/json:
-\${prefix}    schema:
-\${prefix}      type: object
-\${prefix}      properties:
-\${prefix}        success:
-\${prefix}          type: boolean
-\${prefix}        message:
-\${prefix}          type: string
-\${prefix}        data:
-\${dataType}\`;
+              const injection = `${prefix}content:
+${prefix}  application/json:
+${prefix}    schema:
+${prefix}      type: object
+${prefix}      properties:
+${prefix}        success:
+${prefix}          type: boolean
+${prefix}        message:
+${prefix}          type: string
+${prefix}        data:
+${dataType}`;
               newLines.push(injection);
               changed = true;
             }
@@ -252,7 +252,7 @@ function processFile(filepath) {
 
   if (changed || (schemasDef[nameNoExt] && !content.includes('components:'))) {
     fs.writeFileSync(filepath, newLines.join('\n'), 'utf8');
-    console.log(\`Processed \${filepath}\`);
+    console.log(`Processed ${filepath}`);
   }
 }
 
