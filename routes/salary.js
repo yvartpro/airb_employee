@@ -5,6 +5,34 @@ const SalaryController = require('../controllers/SalaryController');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     SalarySetting:
+ *       type: object
+ *       required:
+ *         - grossSalary
+ *         - effectiveMonth
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         assignmentId:
+ *           type: integer
+ *         grossSalary:
+ *           type: number
+ *         commissionRate:
+ *           type: number
+ *         commissionAmount:
+ *           type: number
+ *         netSalary:
+ *           type: number
+ *         effectiveMonth:
+ *           type: string
+ *           format: date
+ */
+
+/**
+ * @swagger
  * /api/salary:
  *   get:
  *     summary: Get all salary settings

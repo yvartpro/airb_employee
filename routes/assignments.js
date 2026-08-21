@@ -5,6 +5,39 @@ const AssignmentController = require('../controllers/AssignmentController');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Assignment:
+ *       type: object
+ *       required:
+ *         - startDate
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         employeeId:
+ *           type: integer
+ *         partnerId:
+ *           type: integer
+ *         contractType:
+ *           type: string
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *         durationMonths:
+ *           type: integer
+ *         renewable:
+ *           type: boolean
+ *         endDate:
+ *           type: string
+ *           format: date-time
+ *         status:
+ *           type: string
+ *           enum: [actif, termine, a_renouveler]
+ */
+
+/**
+ * @swagger
  * /api/assignments:
  *   get:
  *     summary: Get all assignments

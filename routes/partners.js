@@ -5,6 +5,31 @@ const PartnerController = require('../controllers/PartnerController');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Partner:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         name:
+ *           type: string
+ *         contactPhone:
+ *           type: string
+ *         status:
+ *           type: string
+ *           enum: [actif, a_revoir, expire]
+ *         defaultCommissionRate:
+ *           type: number
+ *         avatarUrl:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /api/partners:
  *   get:
  *     summary: Get all partners

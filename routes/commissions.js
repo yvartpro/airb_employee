@@ -5,6 +5,35 @@ const CommissionController = require('../controllers/CommissionController');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Commission:
+ *       type: object
+ *       required:
+ *         - amount
+ *         - transactionDate
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         salarySetting_id:
+ *           type: integer
+ *         employeeId:
+ *           type: integer
+ *         partnerId:
+ *           type: integer
+ *         amount:
+ *           type: number
+ *         period:
+ *           type: string
+ *           enum: [jour, mois, trimestre, annee]
+ *         transactionDate:
+ *           type: string
+ *           format: date-time
+ */
+
+/**
+ * @swagger
  * /api/commissions:
  *   get:
  *     summary: Get all commissions

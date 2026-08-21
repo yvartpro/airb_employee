@@ -5,6 +5,32 @@ const UserController = require('../controllers/UserController');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - fullName
+ *         - email
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         fullName:
+ *           type: string
+ *         role:
+ *           type: string
+ *           enum: [admin, gestionnaire, lecture_seule]
+ *         email:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         avatarUrl:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /api/users:
  *   get:
  *     summary: Get all users

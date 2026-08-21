@@ -6,6 +6,36 @@ const EmployeeController = require('../controllers/EmployeeController');
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Employee:
+ *       type: object
+ *       required:
+ *         - firstName
+ *         - lastName
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Auto-generated ID
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         origin:
+ *           type: string
+ *         photoUrl:
+ *           type: string
+ *         availability:
+ *           type: string
+ *           enum: [disponible, indisponible]
+ *         createdBy:
+ *           type: integer
+ */
+
+/**
+ * @swagger
  * /api/employees:
  *   get:
  *     summary: Get all employees
