@@ -22,8 +22,7 @@ module.exports = {
     charset: 'utf8mb4',
     collate: 'utf8mb4_unicode_ci',
     dialectOptions: {
-      charset: 'utf8mb4',
-      ssl: 'amazon-rds'
+      charset: 'utf8mb4'
     },
     logging: false
   }
